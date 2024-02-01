@@ -2,17 +2,17 @@ use crate::{constants, square::Square};
 
 
 pub struct Board {
-  pub tiles: [[u8; constants::GRID_SIZE]; constants::GRID_SIZE],
+  pub tiles: [u8; constants::GRID_SIZE * constants::GRID_SIZE],
   pub square_1: Square,
   pub square_2: Square,
 }
 
 impl Board {
   pub fn new() -> Board {
-    let mut tiles = [[0; constants::GRID_SIZE]; constants::GRID_SIZE];
+    let mut tiles = [0; constants::GRID_SIZE * constants::GRID_SIZE];
     for i in 0..constants::GRID_SIZE {
       for j in 0..constants::GRID_SIZE {
-        tiles[i][j] = if j < 8 { 1 } else { 0 };
+        tiles[i * constants::GRID_SIZE + j] = if j < 8 { 1 } else { 0 };
       }
     }
     Board {
@@ -25,7 +25,7 @@ impl Board {
   pub fn print(&self) {
     for i in 0..constants::GRID_SIZE {
       for j in 0..constants::GRID_SIZE {
-        print!("{} ", if self.tiles[i][j] == 0 { "o" } else { "*" });
+        print!("{} ", if self.get_cell(i, j) == 0 { "o" } else { "*" });
       }
       println!();
     }
@@ -36,12 +36,16 @@ impl Board {
     let mut amount = 0;
     for i in 0..constants::GRID_SIZE {
       for j in 0..constants::GRID_SIZE {
-        if self.tiles[i][j] == square {
+        if self.get_cell(i, j) == square {
           amount += 1;
         }
       }
     }
     amount
+  }
+
+  pub fn get_cell(&self, x: usize, y: usize) -> u8 {
+    self.tiles[x * constants::GRID_SIZE + y]
   }
 
   pub fn update(&mut self) {

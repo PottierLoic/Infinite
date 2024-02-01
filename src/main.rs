@@ -1,4 +1,4 @@
-use pixels::{Error, Pixels, SurfaceTexture};
+use pixels::{Pixels, SurfaceTexture};
 
 use winit::dpi::LogicalSize;
 use winit::event::{Event, VirtualKeyCode};
@@ -20,11 +20,30 @@ fn draw_background(frame: &mut [u8]) {
   }
 }
 
+fn draw_grid(tiles: &[u8; constants::GRID_SIZE * constants::GRID_SIZE], frame: &mut [u8]) {
+  for i in 0..tiles.len() {
+    let color = if tiles[i] == 0 { constants::DAY } else { constants::NIGHT };
+    let x = i % constants::GRID_SIZE;
+    let y = i / constants::GRID_SIZE;
+    for (j, pixel) in frame.chunks_exact_mut(4).enumerate() {
+      let xx = x as u32 * constants::CELL_SIZE as u32 + constants::GRID_OFFSET as u32 + j as u32 % constants::CELL_SIZE as u32;
+      let yy = y as u32 * constants::CELL_SIZE as u32 + constants::GRID_OFFSET as u32 + j as u32 / constants::CELL_SIZE as u32;
+      if xx >= constants::GRID_OFFSET && xx < constants::SCREEN_SIZE - constants::GRID_OFFSET &&
+         yy >= constants::GRID_OFFSET && yy < constants::SCREEN_SIZE - constants::GRID_OFFSET {
+        pixel.copy_from_slice(&color);
+      }
+    }
+  }
+}
+
 fn draw_square(cell: &Square, frame: &mut [u8]) {
   for (i, pixel) in frame.chunks_exact_mut(4).enumerate() {
     let x = i % constants::SCREEN_SIZE as usize;
     let y = i / constants::SCREEN_SIZE as usize;
-    if x >= cell.x as usize && x < cell.x as usize + constants::CELL_SIZE && y >= cell.y as usize && y < cell.y as usize + constants::CELL_SIZE {
+    if x >= cell.x as usize + constants::GRID_OFFSET as usize &&
+       x < cell.x as usize + constants::GRID_OFFSET as usize + constants::CELL_SIZE &&
+       y >= cell.y as usize + constants::GRID_OFFSET as usize &&
+       y < cell.y as usize + constants::GRID_OFFSET as usize + constants::CELL_SIZE {
       pixel.copy_from_slice(&cell.color);
     }
   }
@@ -44,17 +63,23 @@ fn main() {
   let mut pixels = {
     let window_size = window.inner_size();
     let surface_texture = SurfaceTexture::new(window_size.width, window_size.height, &window);
-    Pixels::new(constants::SCREEN_SIZE as u32, constants::SCREEN_SIZE as u32, surface_texture).unwrap()
+    Pixels::new(constants::SCREEN_SIZE, constants::SCREEN_SIZE, surface_texture).unwrap()
   };
 
   let mut board = Board::new();
   board.square_1.x = 150.0;
 
+  board.print();
+
   event_loop.run(move | event, _, control_flow| {
     if let Event::RedrawRequested(_) = event {
       draw_background(pixels.frame_mut());
+
+      draw_grid(&board.tiles, pixels.frame_mut());
+
       draw_square(&board.square_1, pixels.frame_mut());
       draw_square(&board.square_2, pixels.frame_mut());
+
       if pixels.render().is_err() {
         *control_flow = ControlFlow::Exit;
         return;
@@ -68,14 +93,4 @@ fn main() {
       }
     }
   })
-
-  // let mut test = Board::new();
-  // test.print();
-
-  // for _ in 0..10 {
-  //   test.update();
-  //   test.print();
-  //   test.square_1._print();
-  //   test.square_2._print();
-  // }
 }

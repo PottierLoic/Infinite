@@ -1,7 +1,9 @@
-pub const CELL_SIZE: usize = 50;
+pub const CELL_SIZE: usize = 25;
 pub const GRID_SIZE: usize = 16;
 
-pub const SCREEN_SIZE: i32 = 800;
+pub const SCREEN_SIZE: u32 = 800;
+
+pub const GRID_OFFSET: u32 = (SCREEN_SIZE - GRID_SIZE as u32 * CELL_SIZE as u32) / 2;
 
 // Colors
 pub const BACKGROUND: [u8; 4] = [25, 9, 51, 0xFF];
