@@ -1,5 +1,5 @@
-pub const CELL_SIZE: usize = 25;
-pub const GRID_SIZE: usize = 16;
+pub const CELL_SIZE: u32 = 25;
+pub const GRID_SIZE: u32 = 16;
 
 pub const SCREEN_SIZE: u32 = 800;
 

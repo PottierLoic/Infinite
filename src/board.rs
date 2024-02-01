@@ -2,17 +2,17 @@ use crate::{constants, square::Square};
 
 
 pub struct Board {
-  pub tiles: [u8; constants::GRID_SIZE * constants::GRID_SIZE],
+  pub tiles: [u8; constants::GRID_SIZE as usize * constants::GRID_SIZE as usize],
   pub square_1: Square,
   pub square_2: Square,
 }
 
 impl Board {
   pub fn new() -> Board {
-    let mut tiles = [0; constants::GRID_SIZE * constants::GRID_SIZE];
+    let mut tiles = [0; (constants::GRID_SIZE * constants::GRID_SIZE) as usize];
     for i in 0..constants::GRID_SIZE {
       for j in 0..constants::GRID_SIZE {
-        tiles[i * constants::GRID_SIZE + j] = if j < 8 { 1 } else { 0 };
+        tiles[(i * constants::GRID_SIZE + j) as usize] = if j < 8 { 1 } else { 0 };
       }
     }
     Board {
@@ -44,8 +44,8 @@ impl Board {
     amount
   }
 
-  pub fn get_cell(&self, x: usize, y: usize) -> u8 {
-    self.tiles[x * constants::GRID_SIZE + y]
+  pub fn get_cell(&self, x: u32, y: u32) -> u8 {
+    self.tiles[(x * constants::GRID_SIZE + y) as usize]
   }
 
   pub fn update(&mut self) {
