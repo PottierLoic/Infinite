@@ -4,14 +4,16 @@ pub struct Square {
   pub x: f32,
   pub y: f32,
   pub direction: f32,
+  pub color: [u8; 4],
 }
 
 impl Square {
-  pub fn new(x: f32, y: f32, direction: f32) -> Square {
+  pub fn new(x: f32, y: f32, direction: f32, color: [u8; 4]) -> Square {
     Square {
       x: x,
       y: y,
       direction: direction,
+      color: color,
     }
   }
 

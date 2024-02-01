@@ -17,8 +17,8 @@ impl Board {
     }
     Board {
       tiles: tiles,
-      square_1: Square::new(0.0, 0.0, 0.0),
-      square_2: Square::new(0.0, 0.0, 0.0),
+      square_1: Square::new(0.0, 0.0, 0.0, constants::DAY),
+      square_2: Square::new(0.0, 0.0, 0.0, constants::NIGHT),
     }
   }
 
