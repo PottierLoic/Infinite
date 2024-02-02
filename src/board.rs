@@ -1,4 +1,5 @@
 use crate::{constants, square::Square};
+use std::f32::consts::PI;
 
 
 pub struct Board {
@@ -17,8 +18,8 @@ impl Board {
     }
     Board {
       tiles: tiles,
-      square_1: Square::new(0.0, 0.0, 0.0, constants::DAY),
-      square_2: Square::new(0.0, 0.0, 0.0, constants::NIGHT),
+      square_1: Square::new(100.0, 200.0, 2.0 * PI / 3.0),
+      square_2: Square::new(300.0, 200.0, 5.0 *  (2.0 * PI / 6.0)),
     }
   }
 
