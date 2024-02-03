@@ -1,4 +1,5 @@
 use std::f32::consts::PI;
+use crate::constants;
 
 pub struct Square {
   pub x: f32,
@@ -20,23 +21,23 @@ impl Square {
   }
 
   pub fn update(&mut self) {
-    self.x += self.direction.cos() * 2.0;
-    self.y += self.direction.sin() * 2.0;
+    self.x += self.direction.cos();
+    self.y += self.direction.sin();
 
     // bound check
-    if self.x as u32 >= crate::constants::GRID_SIZE * crate::constants::CELL_SIZE {
-      self.x = (crate::constants::GRID_SIZE * crate::constants::CELL_SIZE) as f32;
+    if self.x >= (constants::GRID_SIZE * constants::CELL_SIZE) as f32 - constants::CELL_SIZE as f32 * 0.5 {
+      self.x = (constants::GRID_SIZE * constants::CELL_SIZE) as f32 - constants::CELL_SIZE as f32 * 0.5 ;
       self.direction -= PI / 4.0;
-    } else if self.x <= 0.0 {
-      self.x = 0.0;
+    } else if self.x <= constants::CELL_SIZE as f32 * 0.5 {
+      self.x = constants::CELL_SIZE as f32 * 0.5;
       self.direction -= PI / 4.0;
     }
 
-    if self.y as u32 >= crate::constants::GRID_SIZE * crate::constants::CELL_SIZE {
-      self.y = (crate::constants::GRID_SIZE * crate::constants::CELL_SIZE) as f32;
+    if self.y >= (constants::GRID_SIZE * constants::CELL_SIZE) as f32 - constants::CELL_SIZE as f32 * 0.5 {
+      self.y = (constants::GRID_SIZE * constants::CELL_SIZE) as f32 - constants::CELL_SIZE as f32 * 0.5;
       self.direction -= PI / 4.0;
-    } else if self.y <= 0.0 {
-      self.y = 0.0;
+    } else if self.y <= constants::CELL_SIZE as f32 * 0.5 {
+      self.y = constants::CELL_SIZE as f32 * 0.5;
       self.direction -= PI / 4.0;
     }
   }

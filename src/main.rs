@@ -9,7 +9,6 @@ use std::time::{Duration, Instant};
 
 mod constants;
 mod square;
-use square::Square;
 mod board;
 use board::Board;
 
@@ -64,7 +63,7 @@ fn main() -> Result<(), String> {
     .build()
     .map_err(|e| e.to_string())?;
 
-  let mut canvas = window.into_canvas().build().map_err(|e| e.to_string())?;;
+  let mut canvas = window.into_canvas().build().map_err(|e| e.to_string())?;
   let mut event_pump = sdl_context.event_pump()?;
 
   let mut board = Board::new();
@@ -79,9 +78,9 @@ fn main() -> Result<(), String> {
     current_time = Instant::now();
     accumulator += delta_time;
 
-    while accumulator <= update_rate {
-      accumulator += update_rate;
-    }
+    // while accumulator <= update_rate {
+    //   accumulator += update_rate;
+    // }
 
     for event in event_pump.poll_iter() {
       match event {
@@ -94,13 +93,13 @@ fn main() -> Result<(), String> {
       }
     }
 
-    canvas.set_draw_color(Color::RGB(25, 9, 51));
+    canvas.set_draw_color(Color::RGB(constants::BACKGROUND[0], constants::BACKGROUND[1], constants::BACKGROUND[2]));
     canvas.clear();
 
     draw_board(&board, &mut canvas);
 
     canvas.present();
-    ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 30));
+    std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 30));
 
     board.update();
   }
