@@ -40,5 +40,11 @@ impl Square {
       self.y = constants::CELL_SIZE as f32 * 0.5;
       self.direction -= PI / 4.0;
     }
+
+    // Normalize the direction
+    self.direction = self.direction % (2.0 * PI);
+    if self.direction < 0.0 {
+      self.direction += 2.0 * PI;
+    }
   }
 }
