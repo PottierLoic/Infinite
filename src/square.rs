@@ -21,8 +21,8 @@ impl Square {
   }
 
   pub fn update(&mut self) {
-    self.x += self.direction.cos() * 10.0;
-    self.y += self.direction.sin() * 10.0;
+    self.x += self.direction.cos();
+    self.y += self.direction.sin();
 
     // bound check
     if self.x >= (constants::GRID_SIZE * constants::CELL_SIZE) as f32 - constants::CELL_SIZE as f32 * 0.5 {

@@ -74,11 +74,7 @@ impl Board {
       }
     }
 
-    // Assuming collided_list is populated as shown in your code snippet
     if !collided_list.is_empty() {
-      // print list 
-      println!("{:?}", collided_list);
-      // Initialize counters for the directions
       let mut vertical_collisions = 0;
       let mut horizontal_collisions = 0;
 
@@ -94,12 +90,8 @@ impl Board {
 
       // Determine the primary direction of collision
       if vertical_collisions > horizontal_collisions {
-        // Vertical collision, adjust direction accordingly
-        // This could mean bouncing back on the vertical axis, depending on your game's physics
         self.square_1.direction = 2.0 * std::f32::consts::PI - self.square_1.direction;
       } else if horizontal_collisions > vertical_collisions {
-        // Horizontal collision, adjust direction accordingly
-        // This could mean bouncing back on the horizontal axis
         self.square_1.direction = std::f32::consts::PI - self.square_1.direction;
       }
 

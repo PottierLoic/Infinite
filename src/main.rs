@@ -67,9 +67,21 @@ fn main() -> Result<(), String> {
   let mut event_pump = sdl_context.event_pump()?;
 
   let mut board = Board::new();
-  board.print();
+  
+  let update_rate = Duration::from_secs_f32(constants::FRAME_RATE);
+  let mut accumulator = Duration::new(0, 0);
+  let mut current_time = Instant::now();
 
   'running: loop {
+
+    let delta_time = current_time.elapsed();
+    current_time = Instant::now();
+    accumulator += delta_time;
+
+    while accumulator <= update_rate {
+      accumulator += update_rate;
+    }
+  
     for event in event_pump.poll_iter() {
       match event {
         Event::Quit { .. }
@@ -87,8 +99,6 @@ fn main() -> Result<(), String> {
     draw_board(&board, &mut canvas);
 
     canvas.present();
-    std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 30));
-
     board.update();
   }
 
