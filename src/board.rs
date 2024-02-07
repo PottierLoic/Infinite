@@ -19,7 +19,7 @@ impl Board {
     Board {
       tiles: tiles,
       square_1: Square::new(100.0, 200.0, 2.0 * PI / 3.0),
-      square_2: Square::new(300.0, 200.0, 5.0 *  (2.0 * PI / 6.0)),
+      square_2: Square::new(300.0, 200.0, 5.0 *  (PI / 3.0)),
     }
   }
 
@@ -51,6 +51,19 @@ impl Board {
 
   pub fn update(&mut self) {
     self.square_1.update();
+    let x = (self.square_1.x / constants::CELL_SIZE as f32) as u32;
+    let y = (self.square_1.y / constants::CELL_SIZE as f32) as u32;
+    if self.get_cell(y, x) == 0 {
+      self.tiles[(y * constants::GRID_SIZE + x) as usize] = 1;
+      self.square_1.direction += PI / 4.0;
+    }
+
     self.square_2.update();
+    let x = (self.square_2.x / constants::CELL_SIZE as f32) as u32;
+    let y = (self.square_2.y / constants::CELL_SIZE as f32) as u32;
+    if self.get_cell(y, x) == 1 {
+      self.tiles[(y * constants::GRID_SIZE + x) as usize] = 0;
+      self.square_2.direction += PI / 4.0;
+    }
   }
 }
