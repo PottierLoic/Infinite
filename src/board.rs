@@ -18,7 +18,7 @@ impl Board {
     }
     Board {
       tiles: tiles,
-      square_1: Square::new(100.0, 200.0, 2.0 * PI / 3.0),
+      square_1: Square::new(100.0, 200.0, 0.0 * PI / 3.0),
       square_2: Square::new(300.0, 200.0, 5.0 *  (PI / 3.0)),
     }
   }
@@ -52,54 +52,54 @@ impl Board {
   pub fn update(&mut self) {
     self.square_1.update();
 
-    let left_x = (self.square_1.x - constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
-    let right_x = (self.square_1.x + constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
-    let top_y = (self.square_1.y - constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
-    let bottom_y = (self.square_1.y + constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
+    // let left_x = (self.square_1.x - constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
+    // let right_x = (self.square_1.x + constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
+    // let top_y = (self.square_1.y - constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
+    // let bottom_y = (self.square_1.y + constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
 
-    let center_x = (self.square_1.x / constants::CELL_SIZE as f32) as u32;
-    let center_y = (self.square_1.y / constants::CELL_SIZE as f32) as u32;
+    // let center_x = (self.square_1.x / constants::CELL_SIZE as f32) as u32;
+    // let center_y = (self.square_1.y / constants::CELL_SIZE as f32) as u32;
 
-    let mut collided_list: Vec<(u32, u32)> = Vec::new();
-    for x in left_x as u32..=right_x as u32 {
-      for y in top_y as u32..=bottom_y as u32 {
-        // check bounds 
-        if x >= constants::GRID_SIZE || y >= constants::GRID_SIZE {
-          continue;
-        }
-        if self.get_cell(y, x) == 0 {
-          self.tiles[(y * constants::GRID_SIZE + x) as usize] = 1;
-          collided_list.push((x, y));
-        }
-      }
-    }
+    // let mut collided_list: Vec<(u32, u32)> = Vec::new();
+    // for x in left_x as u32..=right_x as u32 {
+    //   for y in top_y as u32..=bottom_y as u32 {
+    //     // check bounds
+    //     if x >= constants::GRID_SIZE || y >= constants::GRID_SIZE {
+    //       continue;
+    //     }
+    //     if self.get_cell(y, x) == 0 {
+    //       self.tiles[(y * constants::GRID_SIZE + x) as usize] = 1;
+    //       collided_list.push((x, y));
+    //     }
+    //   }
+    // }
 
-    if !collided_list.is_empty() {
-      let mut vertical_collisions = 0;
-      let mut horizontal_collisions = 0;
+    // if !collided_list.is_empty() {
+    //   let mut vertical_collisions = 0;
+    //   let mut horizontal_collisions = 0;
 
-      // Analyze each collision point
-      for &(x, y) in &collided_list {
-        // Check if the collision is more horizontal or vertical relative to the square's center
-        if x == center_x {
-          vertical_collisions += 1; // Collision is on top or bottom
-        } else if y == center_y {
-          horizontal_collisions += 1; // Collision is on left or right
-        }
-      }
+    //   // Analyze each collision point
+    //   for &(x, y) in &collided_list {
+    //     // Check if the collision is more horizontal or vertical relative to the square's center
+    //     if x == center_x {
+    //       vertical_collisions += 1; // Collision is on top or bottom
+    //     } else if y == center_y {
+    //       horizontal_collisions += 1; // Collision is on left or right
+    //     }
+    //   }
 
-      // Determine the primary direction of collision
-      if vertical_collisions > horizontal_collisions {
-        self.square_1.direction = 2.0 * std::f32::consts::PI - self.square_1.direction;
-      } else if horizontal_collisions > vertical_collisions {
-        self.square_1.direction = std::f32::consts::PI - self.square_1.direction;
-      }
+    //   // Determine the primary direction of collision
+    //   if vertical_collisions > horizontal_collisions {
+    //     self.square_1.direction = 2.0 * std::f32::consts::PI - self.square_1.direction;
+    //   } else if horizontal_collisions > vertical_collisions {
+    //     self.square_1.direction = std::f32::consts::PI - self.square_1.direction;
+    //   }
 
-      // Ensure the direction is normalized
-      self.square_1.direction = self.square_1.direction % (2.0 * std::f32::consts::PI);
-      if self.square_1.direction < 0.0 {
-        self.square_1.direction += 2.0 * std::f32::consts::PI;
-      }
-    }
+    //   // Ensure the direction is normalized
+    //   self.square_1.direction = self.square_1.direction % (2.0 * std::f32::consts::PI);
+    //   if self.square_1.direction < 0.0 {
+    //     self.square_1.direction += 2.0 * std::f32::consts::PI;
+    //   }
+    // }
   }
 }

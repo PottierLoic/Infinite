@@ -22,8 +22,8 @@ fn draw_board(board: &Board, canvas: &mut sdl2::render::Canvas<sdl2::video::Wind
       _ => Color::RGB(0, 0, 0),
     };
     let rect = Rect::new(
-      (constants::GRID_OFFSET + x * constants::CELL_SIZE) as i32,
-      (constants::GRID_OFFSET + y * constants::CELL_SIZE) as i32,
+      (constants::BORDER_SIZE / 2 + x * constants::CELL_SIZE) as i32,
+      (constants::BORDER_SIZE / 2 + y * constants::CELL_SIZE) as i32,
       constants::CELL_SIZE,
       constants::CELL_SIZE,
     );
@@ -36,16 +36,16 @@ fn draw_board(board: &Board, canvas: &mut sdl2::render::Canvas<sdl2::video::Wind
   let square_2 = &board.square_2;
   canvas.set_draw_color(Color::RGB(constants::DAY[0], constants::DAY[1], constants::DAY[2]));
   let rect1 = Rect::new(
-    (constants::GRID_OFFSET + square_1.x as u32 - constants::CELL_SIZE / 2) as i32,
-    (constants::GRID_OFFSET + square_1.y as u32 - constants::CELL_SIZE / 2) as i32,
+    (constants::BORDER_SIZE / 2 + square_1.x as u32 - constants::CELL_SIZE / 2) as i32,
+    (constants::BORDER_SIZE / 2 + square_1.y as u32 - constants::CELL_SIZE / 2) as i32,
     constants::CELL_SIZE,
     constants::CELL_SIZE,
   );
   canvas.fill_rect(rect1).unwrap();
   canvas.set_draw_color(Color::RGB(constants::NIGHT[0], constants::NIGHT[1], constants::NIGHT[2]));
   let rect2 = Rect::new(
-    (constants::GRID_OFFSET + square_2.x as u32 - constants::CELL_SIZE / 2) as i32,
-    (constants::GRID_OFFSET + square_2.y as u32 - constants::CELL_SIZE / 2) as i32,
+    (constants::BORDER_SIZE / 2 + square_2.x as u32 - constants::CELL_SIZE / 2) as i32,
+    (constants::BORDER_SIZE / 2 + square_2.y as u32 - constants::CELL_SIZE / 2) as i32,
     constants::CELL_SIZE,
     constants::CELL_SIZE,
   );
@@ -57,7 +57,7 @@ fn main() -> Result<(), String> {
   let video_subsystem = sdl_context.video()?;
 
   let window = video_subsystem
-    .window("Infinite battle", 800, 800)
+    .window("Infinite battle", constants::SCREEN_SIZE, constants::SCREEN_SIZE)
     .position_centered()
     .opengl()
     .build()
@@ -67,21 +67,22 @@ fn main() -> Result<(), String> {
   let mut event_pump = sdl_context.event_pump()?;
 
   let mut board = Board::new();
-  
+
   let update_rate = Duration::from_secs_f32(constants::FRAME_RATE);
   let mut accumulator = Duration::new(0, 0);
   let mut current_time = Instant::now();
 
   'running: loop {
-
-    let delta_time = current_time.elapsed();
-    current_time = Instant::now();
+    let new_time = Instant::now();
+    let delta_time = new_time.duration_since(current_time);
+    current_time = new_time;
     accumulator += delta_time;
 
-    while accumulator <= update_rate {
-      accumulator += update_rate;
+    while accumulator >= update_rate {
+      board.update();
+      accumulator -= update_rate;
     }
-  
+
     for event in event_pump.poll_iter() {
       match event {
         Event::Quit { .. }
@@ -99,7 +100,6 @@ fn main() -> Result<(), String> {
     draw_board(&board, &mut canvas);
 
     canvas.present();
-    board.update();
   }
 
   Ok(())

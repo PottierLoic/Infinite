@@ -9,11 +9,7 @@ pub struct Square {
 
 impl Square {
   pub fn new(x: f32, y: f32, direction: f32) -> Square {
-    Square {
-      x: x,
-      y: y,
-      direction: direction,
-    }
+    Square { x, y, direction }
   }
 
   pub fn _print(&self) {
@@ -21,8 +17,8 @@ impl Square {
   }
 
   pub fn update(&mut self) {
-    self.x += self.direction.cos();
-    self.y += self.direction.sin();
+    self.x += self.direction.cos() * constants::SPEED;
+    self.y += self.direction.sin() * constants::SPEED;
 
     // bound check
     if self.x >= (constants::GRID_SIZE * constants::CELL_SIZE) as f32 - constants::CELL_SIZE as f32 * 0.5 {

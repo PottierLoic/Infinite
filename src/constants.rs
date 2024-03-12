@@ -1,13 +1,15 @@
-pub const CELL_SIZE: u32 = 25;
-pub const GRID_SIZE: u32 = 16;
-
-pub const SCREEN_SIZE: u32 = 800;
-
-pub const GRID_OFFSET: u32 = (SCREEN_SIZE - GRID_SIZE as u32 * CELL_SIZE as u32) / 2;
+// Sizes
+pub const BORDER_SIZE: u32 = 50;
+pub const BOARD_SIZE: u32 = 400;
+pub const GRID_SIZE: u32 = 20;
+pub const SCREEN_SIZE: u32 = BORDER_SIZE + BOARD_SIZE;
+pub const CELL_SIZE: u32 = BOARD_SIZE / GRID_SIZE;
 
 // Colors
 pub const BACKGROUND: [u8; 4] = [25, 9, 51, 0xFF];
 pub const DAY: [u8; 4] = [172, 252, 217, 0xFF];
 pub const NIGHT: [u8; 4] = [102, 86, 135, 0xFF];
 
-pub const FRAME_RATE: f32 = 1.0 / 90.0;
+// Physic / Rates
+pub const FRAME_RATE: f32 = 1.0 / 60.0;
+pub const SPEED: f32 = 6.0;
