@@ -36,16 +36,16 @@ fn draw_board(board: &Board, canvas: &mut sdl2::render::Canvas<sdl2::video::Wind
   let square_2 = &board.square_2;
   canvas.set_draw_color(Color::RGB(constants::DAY[0], constants::DAY[1], constants::DAY[2]));
   let rect1 = Rect::new(
-    (constants::BORDER_SIZE + square_1.x as u32 - constants::CELL_SIZE / 2) as i32,
-    (constants::BORDER_SIZE + square_1.y as u32 - constants::CELL_SIZE / 2) as i32,
+    (constants::BORDER_SIZE + square_1.x as u32) as i32,
+    (constants::BORDER_SIZE + square_1.y as u32) as i32,
     constants::CELL_SIZE,
     constants::CELL_SIZE,
   );
   canvas.fill_rect(rect1).unwrap();
   canvas.set_draw_color(Color::RGB(constants::NIGHT[0], constants::NIGHT[1], constants::NIGHT[2]));
   let rect2 = Rect::new(
-    (constants::BORDER_SIZE + square_2.x as u32 - constants::CELL_SIZE / 2) as i32,
-    (constants::BORDER_SIZE + square_2.y as u32 - constants::CELL_SIZE / 2) as i32,
+    (constants::BORDER_SIZE + square_2.x as u32) as i32,
+    (constants::BORDER_SIZE + square_2.y as u32) as i32,
     constants::CELL_SIZE,
     constants::CELL_SIZE,
   );

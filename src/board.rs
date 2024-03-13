@@ -13,71 +13,38 @@ impl Board {
     let mut tiles = [0; (constants::GRID_SIZE * constants::GRID_SIZE) as usize];
     for i in 0..constants::GRID_SIZE {
       for j in 0..constants::GRID_SIZE {
-        tiles[(i * constants::GRID_SIZE + j) as usize] = if j < constants::GRID_SIZE / 2 { 1 } else { 0 };
+        tiles[(i * constants::GRID_SIZE + j) as usize] = if i < constants::GRID_SIZE / 2 { 1 } else { 1 };
       }
     }
     Board {
-      tiles: tiles,
-      square_1: Square::new(100.0, 200.0, 0.0 * PI / 3.0),
-      square_2: Square::new(300.0, 200.0, 5.0 *  (PI / 3.0)),
+      tiles,
+      square_1: Square::new(0, 100.0, 200.0, 2.0 * PI / 3.0),
+      square_2: Square::new(1, 300.0, 200.0, 5.0 *  (PI / 3.0)),
     }
   }
 
+  // TODO should return result in case of oob
   pub fn get_cell(&self, x: u32, y: u32) -> u8 {
     self.tiles[(x * constants::GRID_SIZE + y) as usize]
   }
 
   pub fn update(&mut self) {
-    self.square_1.update();
+    self.square_1.x += self.square_1.direction.cos() * constants::SPEED;
+    if self.square_1.x < 0.0 {
+      self.square_1.x = 0.0;
+      self.square_1.bounce_x();
+    } else if self.square_1.x > (constants::GRID_SIZE - 1) as f32 * constants::CELL_SIZE as f32 {
+      self.square_1.x = (constants::GRID_SIZE - 1) as f32 * constants::CELL_SIZE as f32;
+      self.square_1.bounce_x();
+    }
 
-    // let left_x = (self.square_1.x - constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
-    // let right_x = (self.square_1.x + constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
-    // let top_y = (self.square_1.y - constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
-    // let bottom_y = (self.square_1.y + constants::CELL_SIZE as f32 / 2.0) / constants::CELL_SIZE as f32;
-
-    // let center_x = (self.square_1.x / constants::CELL_SIZE as f32) as u32;
-    // let center_y = (self.square_1.y / constants::CELL_SIZE as f32) as u32;
-
-    // let mut collided_list: Vec<(u32, u32)> = Vec::new();
-    // for x in left_x as u32..=right_x as u32 {
-    //   for y in top_y as u32..=bottom_y as u32 {
-    //     // check bounds
-    //     if x >= constants::GRID_SIZE || y >= constants::GRID_SIZE {
-    //       continue;
-    //     }
-    //     if self.get_cell(y, x) == 0 {
-    //       self.tiles[(y * constants::GRID_SIZE + x) as usize] = 1;
-    //       collided_list.push((x, y));
-    //     }
-    //   }
-    // }
-
-    // if !collided_list.is_empty() {
-    //   let mut vertical_collisions = 0;
-    //   let mut horizontal_collisions = 0;
-
-    //   // Analyze each collision point
-    //   for &(x, y) in &collided_list {
-    //     // Check if the collision is more horizontal or vertical relative to the square's center
-    //     if x == center_x {
-    //       vertical_collisions += 1; // Collision is on top or bottom
-    //     } else if y == center_y {
-    //       horizontal_collisions += 1; // Collision is on left or right
-    //     }
-    //   }
-
-    //   // Determine the primary direction of collision
-    //   if vertical_collisions > horizontal_collisions {
-    //     self.square_1.direction = 2.0 * std::f32::consts::PI - self.square_1.direction;
-    //   } else if horizontal_collisions > vertical_collisions {
-    //     self.square_1.direction = std::f32::consts::PI - self.square_1.direction;
-    //   }
-
-    //   // Ensure the direction is normalized
-    //   self.square_1.direction = self.square_1.direction % (2.0 * std::f32::consts::PI);
-    //   if self.square_1.direction < 0.0 {
-    //     self.square_1.direction += 2.0 * std::f32::consts::PI;
-    //   }
-    // }
+    self.square_1.y += self.square_1.direction.sin() * constants::SPEED;
+    if self.square_1.y < 0.0 {
+      self.square_1.y = 0.0;
+      self.square_1.bounce_y();
+    } else if self.square_1.y > (constants::GRID_SIZE - 1) as f32 * constants::CELL_SIZE as f32 {
+      self.square_1.y = (constants::GRID_SIZE - 1) as f32 * constants::CELL_SIZE as f32;
+      self.square_1.bounce_y();
+    }
   }
 }
