@@ -28,6 +28,10 @@ impl Board {
     self.tiles[(x * constants::GRID_SIZE + y) as usize]
   }
 
+  pub fn set_cell(&mut self, x: u32, y: u32, value: u8) {
+    self.tiles[(x * constants::GRID_SIZE + y) as usize] = value;
+  }
+
   pub fn update(&mut self) {
     self.square_1.x += self.square_1.direction.cos() * constants::SPEED;
     if self.square_1.x < 0.0 {
@@ -37,6 +41,23 @@ impl Board {
       self.square_1.x = (constants::GRID_SIZE - 1) as f32 * constants::CELL_SIZE as f32;
       self.square_1.bounce_x();
     }
+
+    let corners = [
+      (self.square_1.x, self.square_1.y), // top-left
+      (self.square_1.x + constants::CELL_SIZE as f32, self.square_1.y), // top-right
+      (self.square_1.x, self.square_1.y + constants::CELL_SIZE as f32), // bottom-left
+      (self.square_1.x + constants::CELL_SIZE as f32, self.square_1.y + constants::CELL_SIZE as f32), // bottom-right
+    ];
+
+    for (corner_x, corner_y) in corners {
+      let cell_x = (corner_x / constants::CELL_SIZE as f32).floor() as u32;
+      let cell_y = (corner_y / constants::CELL_SIZE as f32).floor() as u32;
+      if self.get_cell(cell_x as u32, cell_y as u32) == self.square_1.id as u8 {
+        self.square_1.bounce_x();
+        self.set_cell(cell_x as u32, cell_y as u32, ((self.square_1.id + 1) % 2) as u8);
+      }
+    }
+
 
     self.square_1.y += self.square_1.direction.sin() * constants::SPEED;
     if self.square_1.y < 0.0 {

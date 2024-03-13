@@ -1,6 +1,3 @@
-use std::f32::consts::PI;
-use crate::constants;
-
 #[derive(Copy, Clone)]
 pub struct Square {
   pub id: u32,
