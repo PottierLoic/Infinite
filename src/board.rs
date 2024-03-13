@@ -1,4 +1,4 @@
-use crate::{constants, square::Square};
+use crate::{constants::{self}, square::Square};
 use std::f32::consts::PI;
 
 
@@ -13,7 +13,7 @@ impl Board {
     let mut tiles = [0; (constants::GRID_SIZE * constants::GRID_SIZE) as usize];
     for i in 0..constants::GRID_SIZE {
       for j in 0..constants::GRID_SIZE {
-        tiles[(i * constants::GRID_SIZE + j) as usize] = if j < 8 { 1 } else { 0 };
+        tiles[(i * constants::GRID_SIZE + j) as usize] = if j < constants::GRID_SIZE / 2 { 1 } else { 0 };
       }
     }
     Board {
@@ -21,28 +21,6 @@ impl Board {
       square_1: Square::new(100.0, 200.0, 0.0 * PI / 3.0),
       square_2: Square::new(300.0, 200.0, 5.0 *  (PI / 3.0)),
     }
-  }
-
-  pub fn print(&self) {
-    for i in 0..constants::GRID_SIZE {
-      for j in 0..constants::GRID_SIZE {
-        print!("{} ", if self.get_cell(i, j) == 0 { "o" } else { "*" });
-      }
-      println!();
-    }
-    println!("\n   Day : {}  |  Night : {}\n", self.get_amount(0), self.get_amount(1));
-  }
-
-  pub fn get_amount(&self, square: u8) -> u8 {
-    let mut amount = 0;
-    for i in 0..constants::GRID_SIZE {
-      for j in 0..constants::GRID_SIZE {
-        if self.get_cell(i, j) == square {
-          amount += 1;
-        }
-      }
-    }
-    amount
   }
 
   pub fn get_cell(&self, x: u32, y: u32) -> u8 {

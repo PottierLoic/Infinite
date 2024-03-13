@@ -2,7 +2,7 @@
 pub const BORDER_SIZE: u32 = 50;
 pub const BOARD_SIZE: u32 = 400;
 pub const GRID_SIZE: u32 = 20;
-pub const SCREEN_SIZE: u32 = BORDER_SIZE + BOARD_SIZE;
+pub const SCREEN_SIZE: u32 = BORDER_SIZE * 2 + BOARD_SIZE;
 pub const CELL_SIZE: u32 = BOARD_SIZE / GRID_SIZE;
 
 // Colors
