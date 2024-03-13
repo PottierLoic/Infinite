@@ -12,4 +12,4 @@ pub const NIGHT: [u8; 4] = [102, 86, 135, 0xFF];
 
 // Physic / Rates
 pub const FRAME_RATE: f32 = 1.0 / 60.0;
-pub const SPEED: f32 = 6.0;
+pub const SPEED: f32 = 15.0;
