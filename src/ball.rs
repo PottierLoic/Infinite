@@ -18,7 +18,7 @@ impl Ball {
     Ball {
       x, y,
       dx, dy,
-      radius: CELL_SIZE as f32 / 2.0,
+      radius: CELL_SIZE / 2.0,
       color,
       opponent,
     }
@@ -39,11 +39,11 @@ impl Ball {
   }
 
   pub fn check_boundary_coll(&mut self) {
-    if self.x + self.dx > ((GRID_SIZE * CELL_SIZE) - BALL_RADIUS as u32) as f32 || self.x + self.dx < BALL_RADIUS {
+    if self.x + self.dx > (GRID_SIZE * CELL_SIZE) - BALL_RADIUS || self.x + self.dx < BALL_RADIUS {
       self.dx = -self.dx;
     }
 
-    if self.y + self.dy > ((GRID_SIZE * CELL_SIZE) - BALL_RADIUS as u32) as f32 || self.y + self.dy < BALL_RADIUS {
+    if self.y + self.dy > (GRID_SIZE * CELL_SIZE) - BALL_RADIUS || self.y + self.dy < BALL_RADIUS {
       self.dy = -self.dy;
     }
   }
