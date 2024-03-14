@@ -60,7 +60,6 @@ impl Board {
       ball.check_boundary_coll();
       ball.x+=ball.dx;
       ball.y+=ball.dy;
-      ball.add_random();
     }
   }
 }
