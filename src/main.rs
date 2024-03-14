@@ -1,5 +1,7 @@
 use macroquad::{miniquad::conf, prelude::*};
 
+use std::f64::consts::PI;
+
 mod constants;
 use constants::*;
 mod board;
@@ -20,13 +22,12 @@ fn draw_board(board: &Board) {
   for x in 0..GRID_SIZE {
     for y in 0..GRID_SIZE {
       let cell = board.get_cell(x, y);
-      let color = if cell == 0 { DAY } else { NIGHT };
       draw_rectangle(
         BORDER_SIZE as f32 + x as f32 * CELL_SIZE as f32,
         BORDER_SIZE as f32 + y as f32 * CELL_SIZE as f32,
         CELL_SIZE as f32,
         CELL_SIZE as f32,
-        Color::from(color),
+        cell,
       );
     }
   }
@@ -37,7 +38,8 @@ fn draw_ball(ball: &Ball) {
     BORDER_SIZE as f32 + ball.x,
     BORDER_SIZE as f32 + ball.y,
     BALL_RADIUS,
-    Color::from(if ball.color == 0 { NIGHT } else { DAY }));
+    ball.color,
+  );
 }
 
 #[macroquad::main(window_conf)]
@@ -49,6 +51,7 @@ async fn main() {
     for ball in &board.balls {
       draw_ball(ball);
     }
+    board.update();
     next_frame().await
   }
 }

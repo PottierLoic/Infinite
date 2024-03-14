@@ -15,4 +15,5 @@ pub const NIGHT: Color = Color::new(0.4, 0.337, 0.529, 1.0);
 
 // Physic / Rates
 pub const FRAME_RATE: f32 = 1.0 / 60.0;
-pub const SPEED: f32 = 10.0;
+pub const MIN_SPEED: f32 = 5.0;
+pub const MAX_SPEED: f32 = 10.0;
