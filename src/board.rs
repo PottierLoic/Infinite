@@ -15,8 +15,8 @@ impl Board {
     Board {
       tiles,
       balls: vec![
-        Ball::new(GRID_SIZE * CELL_SIZE / 4.0, GRID_SIZE * CELL_SIZE / 2.0, 8.0, -8.0, DAY, NIGHT),
-        Ball::new((GRID_SIZE * CELL_SIZE / 4.0) * 3.0, GRID_SIZE * CELL_SIZE / 2.0, -8.0, 8.0, NIGHT, DAY)
+        Ball::new(GRID_SIZE * CELL_SIZE / 4.0, GRID_SIZE * CELL_SIZE / 2.0, 4.0, -4.0, DAY, NIGHT),
+        Ball::new((GRID_SIZE * CELL_SIZE / 4.0) * 3.0, GRID_SIZE * CELL_SIZE / 2.0, -4.0, 4.0, NIGHT, DAY)
       ],
     }
   }

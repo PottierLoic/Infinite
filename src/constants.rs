@@ -14,4 +14,4 @@ pub const DAY: Color = Color::new(0.462, 0.670, 0.682, 1.0);
 pub const NIGHT: Color = Color::new(0.933, 0.933, 0.933, 1.0);
 
 // Physic / Rates
-pub const REFRESH_RATE: f32 = 1.0 / 60.0;
+pub const REFRESH_RATE: f32 = 1.0 / 120.0;

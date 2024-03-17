@@ -1,5 +1,4 @@
 use macroquad::{miniquad::conf, prelude::*};
-// use async_recursion::async_recursion;
 
 use std::f32::consts::PI;
 
@@ -43,29 +42,6 @@ fn draw_game(board: &Board) {
   for ball in &board.balls { draw_ball(ball); }
   draw_scores(&board);
 }
-
-// #[async_recursion]
-// async fn game_loop(last_update_time: f64, board: Board) {
-//   let now = get_time();
-//   let delta_time = now - last_update_time;
-//   let new_board = if delta_time >= REFRESH_RATE as f64 {
-//     board.update()
-//   } else {
-//     board.clone()
-//   };
-//   clear_background(BACKGROUND);
-//   draw_game(&new_board);
-
-//   next_frame().await;
-//   game_loop(now, new_board).await;
-// }
-
-// #[macroquad::main(window_conf)]
-// async fn main() {
-//   let board = Board::new();
-//   let start_time = get_time();
-//   game_loop(start_time, board).await;
-// }
 
 #[macroquad::main(window_conf)]
 async fn main() {
